@@ -1,6 +1,6 @@
 package net.time4tea.adf.blocks;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public abstract class DirectoryLikeBlock extends ADFBlock {
     public DirectoryLikeBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
@@ -15,9 +15,7 @@ public abstract class DirectoryLikeBlock extends ADFBlock {
         return getPointers(getHashTableSize(), 24);
     }
 
-    public Date getModifiedTime() {
+    public LocalDateTime getModifiedTime() {
         return fsDate(-92);
     }
-
-
 }

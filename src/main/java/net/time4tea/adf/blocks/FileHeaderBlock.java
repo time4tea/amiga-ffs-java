@@ -1,6 +1,6 @@
 package net.time4tea.adf.blocks;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class FileHeaderBlock extends FileBlock {
     public FileHeaderBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
@@ -19,7 +19,7 @@ public class FileHeaderBlock extends FileBlock {
         return ByteUtils.asULong(bytes(), -188);
     }
 
-    public Date getModifiedTime() {
+    public LocalDateTime getModifiedTime() {
         return fsDate(-92);
     }
 

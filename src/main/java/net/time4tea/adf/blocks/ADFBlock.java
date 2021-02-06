@@ -1,8 +1,6 @@
 package net.time4tea.adf.blocks;
 
-
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public abstract class ADFBlock implements Block {
     private final byte[] bytes;
@@ -31,26 +29,14 @@ public abstract class ADFBlock implements Block {
         return bytes;
     }
 
-    protected Date fsDate(int offset) {
-        int rdays = ByteUtils.asULong(bytes(), offset);
-        int rmins = ByteUtils.asULong(bytes(), offset + 4);
-        int rticks = ByteUtils.asULong(bytes(), offset + 8);
+    protected LocalDateTime fsDate(int offset) {
+        byte[] bytes = bytes();
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.MONTH, 0);
-        cal.set(Calendar.YEAR, 1978);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        int rdays = ByteUtils.asULong(bytes, offset);
+        int rmins = ByteUtils.asULong(bytes, offset + 4);
+        int rticks = ByteUtils.asULong(bytes, offset + 8);
 
-        cal.add(Calendar.DATE, rdays);
-        cal.add(Calendar.MINUTE, rmins);
-        cal.add(Calendar.SECOND, rticks / 50);
-        cal.add(Calendar.MILLISECOND, (rticks % 50) * (1000 / 50));
-
-        return cal.getTime();
+        return DateCalculator.calculate(rdays, rmins, rticks);
     }
 
     public int nextBlockWithSameHash() {
@@ -85,7 +71,7 @@ public abstract class ADFBlock implements Block {
         return 0;
     }
 
-    public abstract Date getModifiedTime();
+    public abstract LocalDateTime getModifiedTime();
 
     public abstract String getType();
 

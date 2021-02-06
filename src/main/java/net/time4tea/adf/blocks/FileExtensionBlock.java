@@ -1,13 +1,13 @@
 package net.time4tea.adf.blocks;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class FileExtensionBlock extends FileBlock {
     public FileExtensionBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
         super(bytes, blockNumber, blockIndexOffset);
     }
 
-    public Date getModifiedTime() {
+    public LocalDateTime getModifiedTime() {
         throw new UnsupportedOperationException();
     }
 

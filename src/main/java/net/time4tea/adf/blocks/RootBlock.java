@@ -1,6 +1,6 @@
 package net.time4tea.adf.blocks;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 public class RootBlock extends DirectoryLikeBlock {
@@ -20,11 +20,11 @@ public class RootBlock extends DirectoryLikeBlock {
         return ByteUtils.asULong(bytes(), 20);
     }
 
-    public Date getDiskModifiedTime() {
+    public LocalDateTime getDiskModifiedTime() {
         return fsDate(-40);
     }
 
-    public Date getFilesystemCreationDate() {
+    public LocalDateTime getFilesystemCreationDate() {
         return fsDate(-28);
     }
 
