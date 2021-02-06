@@ -12,7 +12,7 @@ public class ADFBlockFactory implements BlockFactory {
         this.blockIndexOffset = blockIndexOffset;
     }
 
-    public Block dataBlockFor(byte[] bytes, int blockNumber) {
+    public DataBlock dataBlockFor(byte[] bytes, int blockNumber) {
         if (FFS) {
             return new FfsDataBlock(bytes, blockNumber);
         } else {

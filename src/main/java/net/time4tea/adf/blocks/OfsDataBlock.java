@@ -6,11 +6,11 @@ public class OfsDataBlock extends DataBlock {
         super(bytes, blockNumber, 0);
     }
 
-    public byte[] getBytes() {
+    public byte[] dataBytes() {
         return getBytesFromOffset(24);
     }
 
-    public int getDataBytesInBlock() {
+    public int dataSize() {
         return bytes().length - 24;
     }
 }

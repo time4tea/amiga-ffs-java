@@ -11,9 +11,9 @@ public abstract class DataBlock extends ADFBlock {
         throw new UnsupportedOperationException();
     }
 
-    public abstract byte[] getBytes();
+    public abstract byte[] dataBytes();
 
-    public abstract int getDataBytesInBlock();
+    public abstract int dataSize();
 
     protected byte[] getBytesFromOffset(int startoffset) {
         byte[] bytes = bytes();

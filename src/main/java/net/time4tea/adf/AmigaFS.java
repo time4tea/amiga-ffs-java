@@ -148,8 +148,8 @@ public class AmigaFS {
         for (int block : blocks) {
             int remaining = fileSize - count;
             DataBlock dataBlock = dataBlock(block);
-            int dataBytesInBlock = dataBlock.getDataBytesInBlock();
-            System.arraycopy(dataBlock.getBytes(), 0, bytes, count, Math.min(remaining, dataBytesInBlock));
+            int dataBytesInBlock = dataBlock.dataSize();
+            System.arraycopy(dataBlock.dataBytes(), 0, bytes, count, Math.min(remaining, dataBytesInBlock));
             count += dataBytesInBlock;
         }
 
