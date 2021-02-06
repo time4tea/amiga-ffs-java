@@ -14,7 +14,7 @@ Amiga Emulator
 
 # How can I use it?
 
-For an OFS Amiga disk, you could write a program to read some files. For an Amiga Hard Disk, if you can calculate the Root Block Offset,
+For an OFS/FFS Amiga disk, you could write a program to read some files. For an Amiga Hard Disk, if you can calculate the Root Block Offset,
 you could do the same.
 
 It needs some work!
