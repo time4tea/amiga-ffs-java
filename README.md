@@ -19,3 +19,7 @@ you could do the same.
 
 It needs some work!
 
+# More details on the file format
+
+http://lclevy.free.fr/adflib/adf_info.html
+
