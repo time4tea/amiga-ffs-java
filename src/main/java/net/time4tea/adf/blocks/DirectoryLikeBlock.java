@@ -3,12 +3,12 @@ package net.time4tea.adf.blocks;
 import java.time.LocalDateTime;
 
 public abstract class DirectoryLikeBlock extends ADFBlock {
-    public DirectoryLikeBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
-        super(bytes, blockNumber, blockIndexOffset);
+    public DirectoryLikeBlock(byte[] bytes, int blockIndexOffset) {
+        super(bytes, blockIndexOffset);
     }
 
     public int getHashTableSize() {
-        return ByteUtils.asULong(bytes(), 12);
+        return ByteUtils.asULong(bytes, 12);
     }
 
     public int[] getHashtable() {

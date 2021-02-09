@@ -3,13 +3,11 @@ package net.time4tea.adf.blocks;
 import java.time.LocalDateTime;
 
 public abstract class ADFBlock implements Block {
-    private final byte[] bytes;
-    private final int blockNumber;
+    protected final byte[] bytes;
     private final int blockIndexOffset;
 
-    public ADFBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
+    public ADFBlock(byte[] bytes, int blockIndexOffset) {
         this.bytes = bytes;
-        this.blockNumber = blockNumber;
         this.blockIndexOffset = blockIndexOffset;
     }
 
@@ -30,8 +28,6 @@ public abstract class ADFBlock implements Block {
     }
 
     protected LocalDateTime fsDate(int offset) {
-        byte[] bytes = bytes();
-
         int rdays = ByteUtils.asULong(bytes, offset);
         int rmins = ByteUtils.asULong(bytes, offset + 4);
         int rticks = ByteUtils.asULong(bytes, offset + 8);
@@ -40,26 +36,26 @@ public abstract class ADFBlock implements Block {
     }
 
     public int nextBlockWithSameHash() {
-        return doPtr(ByteUtils.asULong(bytes(), -16));
+        return doPtr(ByteUtils.asULong(bytes, -16));
     }
 
     public String getName() {
-        return ByteUtils.asString(bytes(), -79, -80);
+        return ByteUtils.asString(bytes, -79, -80);
     }
 
     public long getHeaderKey() {
-        return ByteUtils.asULong(bytes(), 4);
+        return ByteUtils.asULong(bytes, 4);
     }
 
     public long getHighSeq() {
-        return ByteUtils.asULong(bytes(), 8);
+        return ByteUtils.asULong(bytes, 8);
     }
 
     protected int[] getPointers(int length, int startOffset) {
         int[] entries = new int[length];
 
         for (int i = 0; i < length; i++) {
-            entries[i] = doPtr(ByteUtils.asULong(bytes(), startOffset + (i * 4)));
+            entries[i] = doPtr(ByteUtils.asULong(bytes, startOffset + (i * 4)));
         }
         return entries;
     }
@@ -76,15 +72,11 @@ public abstract class ADFBlock implements Block {
     public abstract String getType();
 
     public int getParent() {
-        return doPtr(ByteUtils.asULong(bytes(), -12));
+        return doPtr(ByteUtils.asULong(bytes, -12));
     }
 
     public String asHexDump() {
-        return ByteUtils.byteArrayToHexString(bytes());
-    }
-
-    public int getBlockNumber() {
-        return blockNumber;
+        return ByteUtils.byteArrayToHexString(bytes);
     }
 
     public String asString() {

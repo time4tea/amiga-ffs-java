@@ -6,3 +6,6 @@ build
 *.ipr
 *.iml
 *.iws
+
+# Ignore hard disk images
+*.image

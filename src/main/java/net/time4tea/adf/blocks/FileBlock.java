@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class FileBlock extends ADFBlock {
-    public FileBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
-        super(bytes, blockNumber, blockIndexOffset);
+    public FileBlock(byte[] bytes, int blockIndexOffset) {
+        super(bytes, blockIndexOffset);
     }
 
     public int[] getDataBlocks() {

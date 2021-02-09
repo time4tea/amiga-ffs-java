@@ -9,8 +9,7 @@ public class TextFinder {
 
     public static void main(String[] args) throws IOException {
 
-        String filename = "/data/emulate/amiga/disks/amigahd.dd.image";
-        AmigaFS loader = new AmigaFS(new RawFile(filename));
+        AmigaFS loader = new AmigaFS(new RawFile("src/test/resources/public-domain-space-case.adf"));
 
         int blockNumber = 0;
 
@@ -22,7 +21,6 @@ public class TextFinder {
             String content = block.asString();
 
             if (content.contains(searchString)) {
-                System.out.println("block.number = " + block.getBlockNumber());
                 System.out.println("block.asHexDump() = " + block.asHexDump());
             }
             blockNumber++;

@@ -20,26 +20,46 @@ import java.util.List;
 
 
 public class AmigaFS {
-    private final BlockFactory factory = new ADFBlockFactory(false, 0);
-
     private final RawFile.Blocks blocks;
-    private final int rootblockNumber;
+    private final FilesystemCharacteristics characteristics;
+    private final BlockFactory factory;
 
-    public AmigaFS(RawFile rawFile) {
-        this(rawFile, 880);
+    public static class FilesystemCharacteristics {
+        public final int rootblock;
+        public final boolean ffs;
+        public final int blockOffset;
+
+        public FilesystemCharacteristics(int rootblock, boolean ffs, int blockOffset) {
+            this.rootblock = rootblock;
+            this.ffs = ffs;
+            this.blockOffset = blockOffset;
+        }
+
+        public static FilesystemCharacteristics floppy() {
+            return new FilesystemCharacteristics(880, false, 0);
+        }
+
+        public static FilesystemCharacteristics harddisk(int rootblock, int blockOffset) {
+            return new FilesystemCharacteristics(rootblock, true, blockOffset);
+        }
     }
 
-    public AmigaFS(RawFile rawFile, int rootblockNumber) {
+    public AmigaFS(RawFile rawFile) {
+        this(rawFile, FilesystemCharacteristics.floppy());
+    }
+
+    public AmigaFS(RawFile rawFile, FilesystemCharacteristics characteristics) {
         this.blocks = rawFile.blocksize(512);
-        this.rootblockNumber = rootblockNumber;
+        this.characteristics = characteristics;
+        this.factory = new ADFBlockFactory(characteristics.ffs,  characteristics.blockOffset);
     }
 
     public Block specialBlock(int blockNumber) throws IOException {
-        return factory.blockFor(blocks.bytesFor(blockNumber), blockNumber);
+        return factory.blockFor(loadBlock(blockNumber));
     }
 
     public DataBlock dataBlock(int blockNumber) throws IOException {
-        return (DataBlock) factory.dataBlockFor(blocks.bytesFor(blockNumber), blockNumber);
+        return factory.dataBlockFor(loadBlock(blockNumber));
     }
 
     public RootBlock getRootblock(int rootblockNumber) throws IOException {
@@ -47,7 +67,15 @@ public class AmigaFS {
     }
 
     public Block block(int block) throws IOException {
-        return factory.blockFor(blocks.bytesFor(block), block);
+        return factory.blockFor(loadBlock(block));
+    }
+
+    private byte[] loadBlock(int blockNumber) throws IOException {
+        try {
+            return blocks.bytesFor(blockNumber);
+        } catch (IOException e) {
+            throw new NoDataAtBlockException("Unable to load block", blockNumber, e);
+        }
     }
 
     public File getFile(String path) {
@@ -74,7 +102,7 @@ public class AmigaFS {
 
 
     private ADFBlock findBlockForPath(String path) throws IOException {
-        DirectoryLikeBlock directoryBlock = getRootblock(rootblockNumber);
+        DirectoryLikeBlock directoryBlock = getRootblock(characteristics.rootblock);
 
         if (path.startsWith("/")) {
             path = path.substring(1);

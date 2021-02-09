@@ -16,7 +16,7 @@ public class DiskDumper {
 
         int blockNumber = 0;
 
-        while (blockNumber <= 120) {
+        while (blockNumber <= 125) {
             ADFBlock block = loader.dataBlock(blockNumber);
             System.out.println(ByteUtils.byteArrayToHexString(block.bytes()));
             blockNumber++;

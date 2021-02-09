@@ -1,8 +1,8 @@
 package net.time4tea.adf.blocks;
 
 public class DirectoryBlock extends DirectoryLikeBlock {
-    public DirectoryBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
-        super(bytes, blockNumber, blockIndexOffset);
+    public DirectoryBlock(byte[] bytes, int blockIndexOffset) {
+        super(bytes, blockIndexOffset);
     }
 
     public String getType() {
@@ -11,7 +11,7 @@ public class DirectoryBlock extends DirectoryLikeBlock {
 
     @Override
     public int getHashTableSize() {
-        return (bytes().length / 4) - 56;
+        return (bytes.length / 4) - 56;
     }
 
     public String describe() {

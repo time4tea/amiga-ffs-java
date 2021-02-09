@@ -12,31 +12,31 @@ public class ADFBlockFactory implements BlockFactory {
         this.blockIndexOffset = blockIndexOffset;
     }
 
-    public DataBlock dataBlockFor(byte[] bytes, int blockNumber) {
+    public DataBlock dataBlockFor(byte[] bytes) {
         if (FFS) {
-            return new FfsDataBlock(bytes, blockNumber);
+            return new FfsDataBlock(bytes);
         } else {
-            return new OfsDataBlock(bytes, blockNumber);
+            return new OfsDataBlock(bytes);
         }
     }
 
-    public Block blockFor(byte[] bytes, int blockNumber) throws UnrecognisedSpecialBlockException {
+    public Block blockFor(byte[] bytes) throws UnrecognisedSpecialBlockException {
 
         int type = asULong(bytes, 0);
         int secondaryType = asULong(bytes, -4);
         if (type == Types.T_HEADER) {
 
             if (secondaryType == Types.ST_ROOT) {
-                return new RootBlock(bytes, blockNumber, blockIndexOffset);
+                return new RootBlock(bytes, blockIndexOffset);
             } else if (secondaryType == Types.ST_FILE) {
-                return new FileHeaderBlock(bytes, blockNumber, blockIndexOffset);
+                return new FileHeaderBlock(bytes, blockIndexOffset);
             } else if (secondaryType == Types.ST_USERDIR) {
-                return new DirectoryBlock(bytes, blockNumber, blockIndexOffset);
+                return new DirectoryBlock(bytes, blockIndexOffset);
             }
         } else if (type == Types.T_FEXT) {
-            return new FileExtensionBlock(bytes, blockNumber, blockIndexOffset);
+            return new FileExtensionBlock(bytes, blockIndexOffset);
         } else if ( type == Types.T_DATA ) {
-            return new OfsDataBlock(bytes, blockNumber);
+            return new OfsDataBlock(bytes);
         }
 
         throw new UnrecognisedSpecialBlockException("Unknown type " + type);

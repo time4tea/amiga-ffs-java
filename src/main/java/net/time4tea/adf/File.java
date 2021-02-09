@@ -62,11 +62,7 @@ public class File implements Comparable<File> {
     }
 
     public List<File> listFiles() throws IOException {
-        return listFiles(new FileFilter() {
-            public boolean accept(File file) throws IOException {
-                return true;
-            }
-        });
+        return listFiles(file -> true);
     }
 
     public List<File> listFiles(FileFilter filter) throws IOException {

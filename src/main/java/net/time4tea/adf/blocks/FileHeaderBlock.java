@@ -3,8 +3,8 @@ package net.time4tea.adf.blocks;
 import java.time.LocalDateTime;
 
 public class FileHeaderBlock extends FileBlock {
-    public FileHeaderBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
-        super(bytes, blockNumber, blockIndexOffset);
+    public FileHeaderBlock(byte[] bytes, int blockIndexOffset) {
+        super(bytes, blockIndexOffset);
     }
 
     public int getUID() {

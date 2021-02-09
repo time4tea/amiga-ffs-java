@@ -8,16 +8,16 @@ public class RootBlock extends DirectoryLikeBlock {
     public static final long PRIMARY_TYPE = Types.T_HEADER;
     public static final long SECONDARY_TYPE = Types.ST_ROOT;
 
-    public RootBlock(byte[] bytes, int blockNumber, int blockIndexOffset) {
-        super(bytes, blockNumber, blockIndexOffset);
+    public RootBlock(byte[] bytes, int blockIndexOffset) {
+        super(bytes, blockIndexOffset);
     }
 
     public long getFirstData() {
-        return ByteUtils.asULong(bytes(), 16);
+        return ByteUtils.asULong(bytes, 16);
     }
 
     public long getChecksum() {
-        return ByteUtils.asULong(bytes(), 20);
+        return ByteUtils.asULong(bytes, 20);
     }
 
     public LocalDateTime getDiskModifiedTime() {

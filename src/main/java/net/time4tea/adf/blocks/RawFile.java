@@ -28,7 +28,7 @@ public class RawFile {
 
             byte[] bytes = new byte[blockSize];
             if (!(file.read(bytes) == blockSize)) {
-                throw new NoDataAtBlockException("Unable to read " + blockSize + " bytes at offset " + offset);
+                throw new NoDataAtBlockException("Unable to read " + blockSize + " bytes at offset " + offset, blockNumber);
             }
             return bytes;
         }

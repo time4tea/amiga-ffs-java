@@ -99,15 +99,13 @@ public class AmigaFSTest {
         assertEquals(file.getName(), file2.getParent());
     }
 
-    public static List<String> getFileListing(File aStartingDir, FileFilter fileFilter) throws IOException {
+    public static List<String> getFileListing(File dir, FileFilter fileFilter) throws IOException {
         List<String> result = new ArrayList<String>();
 
-        List<String> filesAndDirs = aStartingDir.list(fileFilter);
-        for (String child : filesAndDirs) {
-            File childFile = new File(aStartingDir, child);
-            result.add(childFile.getAbsolutePath());
-            if (childFile.isDirectory()) {
-                result.addAll(getFileListing(childFile, fileFilter));
+        for (File entry : dir.listFiles(fileFilter)) {
+            result.add(entry.getAbsolutePath());
+            if (entry.isDirectory()) {
+                result.addAll(getFileListing(entry, fileFilter));
             }
         }
         Collections.sort(result);

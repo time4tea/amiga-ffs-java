@@ -27,6 +27,14 @@ public class ByteUtils {
         return b(bytes, offset(bytes, offset));
     }
 
+    public static String string(byte[] bytes, int start, int len) {
+        StringBuilder sb = new StringBuilder(len);
+        for ( int i = 0 ; i < len; i++ ) {
+            sb.append((char) bytes[start + i]);
+        }
+        return sb.toString();
+    }
+
     public static String asString(byte[] bytes, int stringOffset, int lengthOffset) {
         int numChars = getByte(bytes, lengthOffset);
         StringBuilder sb = new StringBuilder(numChars);

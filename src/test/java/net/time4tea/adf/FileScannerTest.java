@@ -40,8 +40,6 @@ public class FileScannerTest {
 
         ADFBlock block = (ADFBlock) filesystem.specialBlock(157889);
 
-        System.out.println(block.getType() + " " + block.getName() + " " + block.getBlockNumber());
-
         FileHeaderBlock header = (FileHeaderBlock) block;
 
         System.out.println("header.getName() = " + header.getName());
@@ -52,7 +50,6 @@ public class FileScannerTest {
         for (int dataBlock : header.getDataBlocks()) {
             if (dataBlock != 0) {
                 DataBlock data = filesystem.dataBlock(dataBlock);
-                System.out.println("data.getBlockNumber() = " + Integer.toHexString(data.getBlockNumber()));
                 System.out.println("data.asHexDump() = " + data.asHexDump());
             }
         }
