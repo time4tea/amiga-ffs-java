@@ -78,8 +78,8 @@ public class AmigaFS {
         }
     }
 
-    public File getFile(String path) {
-        return new File(this, path);
+    public AmigaFile getFile(String path) {
+        return new AmigaFile(this, path);
     }
 
     public boolean exists(String filePath) throws IOException {
@@ -236,7 +236,7 @@ public class AmigaFS {
     }
 
 
-    public File getFile(String directory, String filename) {
+    public AmigaFile getFile(String directory, String filename) {
         if ("/".equals(directory)) {
             return getFile("/" + filename);
         }

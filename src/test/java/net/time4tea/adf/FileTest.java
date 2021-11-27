@@ -1,6 +1,5 @@
 package net.time4tea.adf;
 
-import net.time4tea.adf.blocks.ADFBlockFactory;
 import net.time4tea.adf.blocks.RawFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ public class FileTest {
     @Test
     public void testCanFindAFile() throws Exception {
 
-        File file = new File(fs, "s/startup-sequence");
+        AmigaFile file = new AmigaFile(fs, "s/startup-sequence");
 
         assertTrue(file.exists());
         InputStream is = file.getInputStream();

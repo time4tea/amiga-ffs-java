@@ -4,6 +4,8 @@ import net.time4tea.adf.AmigaFS;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class FileBlock extends ADFBlock {
@@ -17,7 +19,7 @@ public abstract class FileBlock extends ADFBlock {
 
         int start = 0;
 
-        while (pointers[start] == 0) {
+        while (start < pointers.length && pointers[start] == 0) {
             start++;
         }
 
@@ -36,27 +38,27 @@ public abstract class FileBlock extends ADFBlock {
         return doPtr(ByteUtils.asULong(bytes(), -8));
     }
 
+    private void add(List<Integer> list, int[] items) {
+        for (int item : items) {
+            list.add(item);
+        }
+    }
+
     public List<Integer> getFileBlocksFromFileHeaderBlock(AmigaFS amigaFS) throws IOException {
 
-        List<Integer> blockList = new ArrayList<Integer>();
+        List<Integer> blockList = new ArrayList<>();
 
         int[] dataBlocks = getDataBlocks();
 
-        do {
-            for (int block : dataBlocks) {
-                blockList.add(block);
-            }
+        add(blockList, dataBlocks);
 
-            dataBlocks = null;
+        int extensionBlock = getExtensionBlock();
 
-            int extensionBlock = getExtensionBlock();
-
-            if (extensionBlock != 0) {
-                dataBlocks = ((FileBlock) amigaFS.specialBlock(extensionBlock)).getDataBlocks();
-            }
-
+        while (extensionBlock != 0) {
+            FileExtensionBlock fileExtensionBlock = (FileExtensionBlock) amigaFS.specialBlock(extensionBlock);
+            add(blockList, fileExtensionBlock.getDataBlocks());
+            extensionBlock = fileExtensionBlock.getExtensionBlock();
         }
-        while (dataBlocks != null);
 
         return blockList;
     }

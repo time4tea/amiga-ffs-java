@@ -1,6 +1,5 @@
 package net.time4tea.adf;
 
-import net.time4tea.adf.blocks.FilesystemException;
 import net.time4tea.adf.blocks.RawFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +50,7 @@ public class AmigaFSTest {
 
     @Test
     public void testCanDetermineThatAFileIsNotADirectory() throws Exception {
-        File file = fs.getFile("/ACEDEMO!");
+        AmigaFile file = fs.getFile("/ACEDEMO!");
         assertTrue(file.exists());
         assertFalse(file.isDirectory());
     }
@@ -69,7 +68,7 @@ public class AmigaFSTest {
 
     @Test
     public void testCanReadRootDirectory() throws Exception {
-        File file = fs.getFile("/");
+        AmigaFile file = fs.getFile("/");
         assertTrue(file.exists());
         assertTrue(file.isDirectory());
 
@@ -80,7 +79,7 @@ public class AmigaFSTest {
     @Test
     public void testCanReadADirectory() throws Exception {
 
-        File file = fs.getFile("S");
+        AmigaFile file = fs.getFile("S");
         assertTrue(file.exists());
         assertTrue(file.isDirectory());
 
@@ -91,18 +90,18 @@ public class AmigaFSTest {
     @Test
     public void testCanFindTheParentDirectoryForAFIle() throws Exception {
 
-        File file = fs.getFile("S");
+        AmigaFile file = fs.getFile("S");
         assertTrue(file.isDirectory());
-        File file2 = new File(file, "Startup-Sequence");
+        AmigaFile file2 = new AmigaFile(file, "Startup-Sequence");
 
         assertEquals(file, file2.getParentFile());
         assertEquals(file.getName(), file2.getParent());
     }
 
-    public static List<String> getFileListing(File dir, FileFilter fileFilter) throws IOException {
+    public static List<String> getFileListing(AmigaFile dir, FileFilter fileFilter) throws IOException {
         List<String> result = new ArrayList<String>();
 
-        for (File entry : dir.listFiles(fileFilter)) {
+        for (AmigaFile entry : dir.listFiles(fileFilter)) {
             result.add(entry.getAbsolutePath());
             if (entry.isDirectory()) {
                 result.addAll(getFileListing(entry, fileFilter));
@@ -114,7 +113,7 @@ public class AmigaFSTest {
 
     @Test
     public void testCanDoRecursiveListing() throws Exception {
-        for (String filename : getFileListing(new File(fs, "/"), file -> true)) {
+        for (String filename : getFileListing(new AmigaFile(fs, "/"), file -> true)) {
             System.out.println("filename = " + filename);
         }
     }

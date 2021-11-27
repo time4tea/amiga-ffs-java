@@ -1,6 +1,7 @@
 
 
-#include<strings.h>
+#include<string.h>
+#include <ctype.h>
 #include <stdio.h>
 
 #define BSIZE 512
